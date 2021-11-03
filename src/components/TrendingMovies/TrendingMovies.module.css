@@ -1,0 +1,17 @@
+.trendList {
+  list-style-type: none;
+  color: rgba(255, 228, 196, 0.767);
+  font-size: 26px;
+}
+ul > .trendList:before {
+  content: "...> "; /* Добавляем в качестве маркера символ */
+}
+
+ul {
+  text-align: left;
+}
+
+.headline {
+  font-size: 44px;
+  margin-bottom: 0;
+}
