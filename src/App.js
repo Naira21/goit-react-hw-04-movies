@@ -1,11 +1,12 @@
 import './App.css';
-import { TrendingMovies } from './components/TrendingMovies/FetchTrendingMovies';
-//import AppOld from './components/SearchOld/App';
-//import { SearchMoviesFetch } from './components/Search/SearchMovie';
-import MovieList from './components/Search/MovieList'
 import {NavLink, Route, Switch } from 'react-router-dom';
-import { HomePage } from './pages/Home/Home';
-import { MoviesPage } from './pages/Movies/Movies';
+import { lazy, Suspense} from 'react';
+
+
+const TrendingMovies=lazy(()=>import('./components/TrendingMovies/TrendingMovies'/* webpackChunkName: trending movies*/ ))
+const MovieList = lazy(() => import('./components/Search/MovieList' /* webpackChunkName: movies list*/))
+const MovieCard = lazy(() => import('./components/FullMovieInfo/MovieCard' /* webpackChunkName: movie card*/ ))
+
 
 function App() {
  
@@ -17,28 +18,29 @@ function App() {
             <NavLink exact to='/' className='navLink' activeClassName='activeNavLink'>Home</NavLink>
           </li>
             <li>
-            <NavLink to='/movies' className='navLink' activeClassName='activeNavLink'>Movies</NavLink>
+            <NavLink exact to='/movies' className='navLink' activeClassName='activeNavLink'>Movies</NavLink>
           </li>
         </ul>
       </nav>
-      <Switch>
-      <Route exact path='/' >
-        <HomePage title='title from App' />
-        <TrendingMovies />
-      </Route>
-      <Route path='/movies' component={MoviesPage}>
-       <MovieList/>
-      </Route>
-      <Route>
-        <p className='error'>404 Page not Found</p>        
-      </Route>
       
-    </Switch>
+      <Suspense fallback={<h1>Waiting...just a second</h1>}>
+        <Switch>
+          <Route exact path='/' >
+            <TrendingMovies />
+          </Route>
+            <Route exact path='/movies'>
+          <MovieList/>
+          </Route>
+          <Route path='/movies/:movieId' component={MovieCard}>
+                  
+          </Route> 
+          <Route>
+            <p className='error'>404 Page not Found</p>        
+          </Route>          
+        </Switch>
+    </Suspense>
         
-        
-        {/* <SearchMoviesFetch/> */}
-        {/* <AppOld/> */}
-        
+       
 
     </div>
   );

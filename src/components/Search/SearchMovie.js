@@ -1,20 +1,27 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import './SearchMovie.module.css'
-import { Link, Route } from 'react-router-dom';
-import {FullMovieInfo}  from '../FullMovieInfo/FetchFullMovieInfo'
+import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router';
+import MovieCard  from '../FullMovieInfo/MovieCard'
 
 //import { SearchBar } from './SearchBar'
 //import { FullMovieInfo } from '../FullMovieInfo/FetchFullMovieInfo';
 
+//import {MoviesFetch} from '../APIs'
+
+//const newMoviesFetch = new MoviesFetch();
+
+
 const API_KEY = `607ce2b0175f11dd3da1b6bcb0605f59`;
     const URL = `https://api.themoviedb.org/3/`;
-    const endpoint = `search/`;
-    const source = `movie?`;
+//     const endpoint = `search/`;
+//     const source = `movie?`;
 
     
-export function SearchMoviesFetch({searchValue}) {
-
+export function SearchMoviesFetch({ searchValue }) {
+    const location = useLocation();
+    console.log('List location', location)
     const [searchResults, setSearchResults] = useState([])
     const [status, setStatus] = useState('init');
     
@@ -23,66 +30,45 @@ export function SearchMoviesFetch({searchValue}) {
         if (searchValue === "") {
             return;
         }
-
         setStatus("pending");
-        const searchMovie = URL + endpoint + source + `api_key=${API_KEY}&query=${searchValue}`;
+
+        // newMoviesFetch.searchQuery = searchValue;
+        // newMoviesFetch
+        //     .searchMovie()
+        //     .then(searchResults => setSearchResults(searchResults), setStatus('success'))
+        //     .catch((error) => setStatus('error'))
+        // }, [searchValue]
         
-        //console.log(searchMovie);
-        fetch(searchMovie)
-            .then(result => result.json())
-            .then(data => setSearchResults(data.results), setStatus('success'))
-            .catch(() => setStatus('error'))
-    }, [searchValue]
+
+         const url = `${URL}search/movie?api_key=${API_KEY}&query=${searchValue}`;
+        
+        console.log(searchValue);
+            fetch(url)
+                .then(result => result.json())
+                .then(data => setSearchResults(data.results), setStatus('success'))
+                .catch(() => setStatus('error'))
+        }, [searchValue]
+        
     )
-
-    // const [movieId, setMovieId] = useState('');
- 
-    // useEffect(() => {
-    //     const onClickListItem = () => {
-    //         setMovieId(searchResults.id);
-    //     }
-    //     const API_KEY = `607ce2b0175f11dd3da1b6bcb0605f59`;
-    //     const URL = `https://api.themoviedb.org/3/`;
-    //     const endpoint = `movie/`;
-    //     const getFullInfo = URL + endpoint + `${movieId}?api_key=${API_KEY}`;
-    //     console.log('request:', getFullInfo);
-    //     fetch(getFullInfo)
-    //         .then(response => response.json(), onClickListItem())
-    //         .then(data => setMovieId(data))
-    //         .catch((error) => alert(`This is ${error}!`))
-    // }, []);
-
    
     if (status === "init") {
-    return null;
+        return null;
     }
     if (status === "success") {
         return (
             <>
-                {/* <SearchBar onSubmit={getSearchValue} /> */}
                 <ul>
+                    
                     {searchResults.map(movie =>
-                   
                         <li key={movie.id} className='result-item'>
-                            <Link to='/movies/'>
+                            <Link to={{
+                                pathname: `/movies/${movie.id}`,   //куда?
+                                state: {
+                                    from: { location, label: `← Go back`, }   //откуда?
+                                }
+                            }}>
                                 {movie.title}
                             </Link>
-                            <Route path="/movies/">
-                                <FullMovieInfo choosenMovie={movie.id} />
-                            </Route>
-                            
-                            <div>
-                                <img src={movie.poster_path} alt='' />
-                                {/* <title key={movie.id}>{movie.title}</title> */}
-                                <p>User Score: {movie.vote_average}</p>
-                                <p>Overview</p>
-                                <p>{movie.overview}</p>
-                                <p>Genres</p>
-                                <p>{movie.genres}</p>
-
-                                
-                            </div>
-                        
                         </li>
                     )}
                 </ul>
@@ -90,13 +76,13 @@ export function SearchMoviesFetch({searchValue}) {
         )
     }
     if (status === "error") {
-    if (searchResults.length === 0) {
-      return alert(`Sorry, we couldn't find a movie with this word... Lets try again!`);
+        if (searchResults.length === 0) {
+            return alert(`Sorry, we couldn't find a movie with this word... Lets try again!`);
+        }
     }
-  }
 }
 
-SearchMoviesFetch.prototype = {
-    queryResults: PropTypes.arrayOf(PropTypes.shape),
-    API_KEY: PropTypes.string.isRequired
-}
+// SearchMoviesFetch.prototype = {
+//     queryResults: PropTypes.arrayOf(PropTypes.shape),
+//     API_KEY: PropTypes.string.isRequired
+// }
