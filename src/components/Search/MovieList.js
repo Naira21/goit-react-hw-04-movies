@@ -3,8 +3,7 @@ import { SearchBar } from "./SearchBar";
 import { SearchMoviesFetch } from "./SearchMovie";
 
 function MovieList() {
-  const [searchValue, setSearchValue] = useState("");
-
+  const [searchValue, setSearchValue] = useState('');
 
   const getSearchValue = (searchValue) => {
     setSearchValue(searchValue);

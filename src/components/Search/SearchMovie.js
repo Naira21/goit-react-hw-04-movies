@@ -3,64 +3,52 @@ import { useState, useEffect } from 'react';
 import './SearchMovie.module.css'
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router';
-import MovieCard  from '../FullMovieInfo/MovieCard'
+//import MovieCard  from '../FullMovieInfo/MovieCard'
 
 //import { SearchBar } from './SearchBar'
 //import { FullMovieInfo } from '../FullMovieInfo/FetchFullMovieInfo';
 
-//import {MoviesFetch} from '../APIs'
+import { MoviesFetch } from '../APIs';
+const newMoviesFetch = new MoviesFetch();
 
-//const newMoviesFetch = new MoviesFetch();
 
-
-const API_KEY = `607ce2b0175f11dd3da1b6bcb0605f59`;
-    const URL = `https://api.themoviedb.org/3/`;
+// const API_KEY = `607ce2b0175f11dd3da1b6bcb0605f59`;
+// const URL = `https://api.themoviedb.org/3/`;
 //     const endpoint = `search/`;
 //     const source = `movie?`;
 
-    
+
 export function SearchMoviesFetch({ searchValue }) {
     const location = useLocation();
-    console.log('List location', location)
-    const [searchResults, setSearchResults] = useState([])
+    const [searchResults, setSearchResults] = useState([]);
     const [status, setStatus] = useState('init');
     
     
     useEffect(() => {
+        newMoviesFetch.searchQuery = searchValue;
         if (searchValue === "") {
             return;
         }
         setStatus("pending");
-
-        // newMoviesFetch.searchQuery = searchValue;
-        // newMoviesFetch
-        //     .searchMovie()
-        //     .then(searchResults => setSearchResults(searchResults), setStatus('success'))
-        //     .catch((error) => setStatus('error'))
-        // }, [searchValue]
         
-
-         const url = `${URL}search/movie?api_key=${API_KEY}&query=${searchValue}`;
-        
-        console.log(searchValue);
-            fetch(url)
-                .then(result => result.json())
-                .then(data => setSearchResults(data.results), setStatus('success'))
-                .catch(() => setStatus('error'))
-        }, [searchValue]
-        
-    )
+        newMoviesFetch
+            .searchMovie()
+            .then((searchResults) => setSearchResults(searchResults), setStatus('success'))
+            .catch(() => setStatus('error'))
+    }, [searchValue],
+        console.log('results in useEffect',searchResults),
+    );
    
+    console.log('results out of useEffect',searchResults);
     if (status === "init") {
         return null;
     }
     if (status === "success") {
         return (
             <>
-                <ul>
-                    
-                    {searchResults.map(movie =>
-                        <li key={movie.id} className='result-item'>
+                <ul>                    
+                    {searchResults.length > 0 && searchResults.map((movie) =>
+                         (<li key={movie.id} className='result-item'>
                             <Link to={{
                                 pathname: `/movies/${movie.id}`,   //куда?
                                 state: {
@@ -69,7 +57,7 @@ export function SearchMoviesFetch({ searchValue }) {
                             }}>
                                 {movie.title}
                             </Link>
-                        </li>
+                        </li>)
                     )}
                 </ul>
             </>
@@ -82,7 +70,7 @@ export function SearchMoviesFetch({ searchValue }) {
     }
 }
 
-// SearchMoviesFetch.prototype = {
-//     queryResults: PropTypes.arrayOf(PropTypes.shape),
-//     API_KEY: PropTypes.string.isRequired
-// }
+SearchMoviesFetch.prototype = {
+    queryResults: PropTypes.arrayOf(PropTypes.shape),
+    API_KEY: PropTypes.string.isRequired
+}

@@ -5,8 +5,7 @@ const URL = `https://api.themoviedb.org/3/`;
 
 export class MoviesFetch{
     constructor() {
-        // this.state_url= URL;
-        // this.api_key = API_KEY;
+        this.state_url= URL;
         this._searchQuery = '';
     }
     get searchQuery() {
@@ -17,53 +16,71 @@ export class MoviesFetch{
     }
 
     async getTrendingMovies() {
-        // axios.defaults.baseURL = this.state_url;
-        // axios.defaults.headers.common.Authorization = this.api_key;
-        let url = `${URL}trending/all/day?api_key=${API_KEY}`;
+        axios.defaults.baseURL = this.state_url;
+        let url = `trending/all/day?api_key=${API_KEY}`;
         try {
             const response = await axios.get(url);
             const data = response.data.results;
-            if (response.status === 400)
-                throw new Error();
-            if (response.status === 200)
-                return data;
+            return data;
         }
-        catch (error) {
-            return error.message;
+        catch (err) {
+            return err.message
         }
+    
     }
 
-    async searchMovie(searchQuery) {
-        let url = `${URL}search/movie?api_key=${API_KEY}&query=${searchQuery}`;
+    async searchMovie() {
+        if (!this.searchQuery) {
+            alert(`Enter the search request please!`);
+            return;
+        }
+        let url = `search/movie?api_key=${API_KEY}&query=${this.searchQuery}`;
+        
+        try {
+            const response = await axios.get(url);
+            const data = response.data.results;
+            return data;
+        }
+        catch (err) {
+            return err.message
+        }
+
+    }
+
+    async getMovieDetails(id) {
+        let url = `movie/${id}?api_key=${API_KEY}&language=en-US`;
         try {
             const response = await axios.get(url);
             const data = response.data;
-            if (response.status === 400)
-                throw new Error();
-            if (response.status === 200)
-                return data;
+            return data;
         }
-        catch (error) {
-            return error.message;
-        }
+        catch (err) {
+            return err.message;
+        }        
     }
 
 
+    async getCast(id) {
+        let url = `movie/${id}/credits?api_key=${API_KEY}&language=en-US`;
+        try {
+            const response = await axios.get(url);
+            const data = response.data.cast;
+            return data;
+        }
+        catch (err) {
+            return err.message;
+        }        
+    }
 
+      async getReviews(id) {
+        let url = `movie/${id}/reviews?api_key=${API_KEY}&language=en-US`;
+        try {
+            const response = await axios.get(url);
+            const data = response.data.results;
+            return data;
+        }
+        catch (err) {
+            return err.message;
+        }        
+    }
 }
-
-// export async function TrendingMoviesFetch() {
-//     return fetch(`${URL}trending/all/day?api_key=${API_KEY}`)
-//         .then(res => res.json())
-//         .then(data => data.results)
-//         .catch(() => new Error('No movies on trend...Sorry'))
-// }
-
-// export async function SearchMovieFetch(searchValue) {
-//     return fetch(`${URL}search/movie?api_key=${API_KEY}&query=${searchValue}`)
-//         .then(res => res.json())
-//         .then(data => data.results)
-//         .catch(() => new Error('No such movie found'))
-// }
-
-//https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false

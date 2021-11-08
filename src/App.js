@@ -6,7 +6,8 @@ import { lazy, Suspense} from 'react';
 const TrendingMovies=lazy(()=>import('./components/TrendingMovies/TrendingMovies'/* webpackChunkName: trending movies*/ ))
 const MovieList = lazy(() => import('./components/Search/MovieList' /* webpackChunkName: movies list*/))
 const MovieCard = lazy(() => import('./components/FullMovieInfo/MovieCard' /* webpackChunkName: movie card*/ ))
-
+const CastInfo = lazy(() => import('./components/FullMovieInfo/Cast'/* webpackChunkName: cast info*/))
+//const Reviews =lazy(()=>import('./components/FullMovieInfo/Reviews'/* webpackChunkName: reviews*/  ))
 
 function App() {
  
@@ -31,9 +32,9 @@ function App() {
             <Route exact path='/movies'>
           <MovieList/>
           </Route>
-          <Route path='/movies/:movieId' component={MovieCard}>
-                  
-          </Route> 
+          <Route path='/movies/:movieId' component={MovieCard}></Route>          
+          <Route path='/movies/:movieId/cast' component={CastInfo}></Route>
+          {/* <Route path='/movies/:movieId/reviews' component={Reviews}></Route> */}
           <Route>
             <p className='error'>404 Page not Found</p>        
           </Route>          

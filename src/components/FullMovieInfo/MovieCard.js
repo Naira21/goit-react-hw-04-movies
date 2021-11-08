@@ -1,31 +1,33 @@
 //import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router';
+import { Link} from 'react-router-dom';
+import {MoviesFetch} from '../APIs'
 
-//import './FullMovieInfo.module.css'
-
+const newMoviesFetch = new MoviesFetch();
 
 export default function MovieCard() {
     const history = useHistory();
     const location = useLocation();
     console.log('Card location', location)
     const [details, setDetails] = useState(null);
+    const [castState, setCastState] = useState(false);
+    const [cast, setCast] = useState([]);
+    const [reviewsState, setReviewsState] = useState(false);
+    const [reviews, setReviews] = useState([]);
     const params = useParams();
-    const API_KEY = `607ce2b0175f11dd3da1b6bcb0605f59`;
-    const URL = `https://api.themoviedb.org/3/`;
-    const endpoint = `movie/`;
-    const getFullInfo = URL + endpoint + `${params.movieId}?api_key=${API_KEY}`;
-    
+   
  
     useEffect(() => {
         
-        fetch(getFullInfo)
-            .then(response => response.json())
-            .then(object => setDetails(object))
-            .catch((error) => alert(`This is ${error}!`))
-        return () => `error`
-    }, [getFullInfo],
-    console.log('check storage 1',details))
+        newMoviesFetch
+            .getMovieDetails(params.movieId)
+            .then(details =>
+                setDetails(details)
+            )
+            .catch((error) => alert(error))
+    }, [params.movieId])
+    
     
    
     const handleClick = () => {
@@ -34,13 +36,51 @@ export default function MovieCard() {
 
         //history.push('/movies')
     }
-console.log('check storage 2',details)
+    console.log('check storage 2', details)
+    
+            
+    useEffect(() => {
+        if (castState) {
+            newMoviesFetch
+            .getCast(params.movieId)
+            .then(cast =>
+                setCast(cast)
+            )
+            .catch((error) => alert(error))
+        }
+        
+    }, [castState, params.movieId])
+    
+    useEffect(() => {
+        if (reviewsState) {
+          newMoviesFetch
+            .getCast(params.movieId)
+            .then(cast =>
+                setCast(cast)
+            )
+            .catch((error) => alert(error))  
+        }
+        
+    }, [reviewsState, params.movieId])
+
+    const showReviews=() => {
+       setReviewsState(true) 
+    }
+    const showCast=() => {
+       setCastState(true) 
+    }
+        
+        
     return (
         <>
             <button type='button' onClick={handleClick}> { location?.state?.from?.label ?? '← Go back'}</button>
             {details ? (
                 <>
+                    <p>Details</p>
                     <article key={details.id}>
+                        {
+                            details.poster_path ? details.poster_path : `No poster`
+                        }
                         <img src={details.poster_path} alt='' />
                         <title key={details.id}>{details.title}</title>
                         <p>User Score: {details.vote_average}</p>
@@ -52,17 +92,26 @@ console.log('check storage 2',details)
                     <div>
                         <p>Additional information</p>
                         <ul>
-                            <li>
-                                Cast - REFFERENCE
+                            <li onClick={showCast}>
+                                
+                                {details.cast &&
+                                    <Link to={`/movies/${params.movieId}/cast`}>
+                                        Cast - REFFERENCE
+                                    </Link>
+                                }
                             </li>
-                            <li>
-                                Reviews - REFFERENCE
+                            <li onClick={showReviews}>
+                                {details.reviews &&
+                                    <Link to={`/movies/${params.movieId}/reviews`}>
+                                        Reviews - REFFERENCE
+                                    </Link>
+                                }
                             </li>
                         </ul>
                     </div>
                 </>                 
-            ) : (<p>NO match found</p>)}
-            </>
+            ) : (<p>No match found</p>)}
+        </>
             
 )
 }
