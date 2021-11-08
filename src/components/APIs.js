@@ -76,7 +76,7 @@ export class MoviesFetch{
         let url = `movie/${id}/reviews?api_key=${API_KEY}&language=en-US`;
         try {
             const response = await axios.get(url);
-            const data = response.data.results;
+            const data = response.data.results; //возможно, нужно response.data
             return data;
         }
         catch (err) {
@@ -84,3 +84,6 @@ export class MoviesFetch{
         }        
     }
 }
+
+
+//или просто функциями записывать export function nameFunction(){return axios.get(url).then()}

@@ -1,7 +1,7 @@
 //import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router';
-import { Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {MoviesFetch} from '../APIs'
 
 const newMoviesFetch = new MoviesFetch();
@@ -9,34 +9,27 @@ const newMoviesFetch = new MoviesFetch();
 export default function MovieCard() {
     const history = useHistory();
     const location = useLocation();
+    const params = useParams();
     console.log('Card location', location)
     const [details, setDetails] = useState(null);
     const [castState, setCastState] = useState(false);
-    const [cast, setCast] = useState([]);
+    const [cast, setCast] = useState(null);
     const [reviewsState, setReviewsState] = useState(false);
-    const [reviews, setReviews] = useState([]);
-    const params = useParams();
+    const [reviews, setReviews] = useState(null);
    
  
     useEffect(() => {
-        
         newMoviesFetch
             .getMovieDetails(params.movieId)
-            .then(details =>
-                setDetails(details)
-            )
+            .then(setDetails)
             .catch((error) => alert(error))
-    }, [params.movieId])
+    }, [params.movieId],
+        console.log('details', details));
     
-    
-   
     const handleClick = () => {
-        //alert(`hi!`);
-            history.push(location?.state?.from?.location ?? '/');
-
-        //history.push('/movies')
+        history.push(location?.state?.from?.location ?? '/');
     }
-    console.log('check storage 2', details)
+    
     
             
     useEffect(() => {
@@ -55,8 +48,8 @@ export default function MovieCard() {
         if (reviewsState) {
           newMoviesFetch
             .getCast(params.movieId)
-            .then(cast =>
-                setCast(cast)
+            .then(reviews =>
+                setReviews(reviews)
             )
             .catch((error) => alert(error))  
         }
@@ -66,6 +59,7 @@ export default function MovieCard() {
     const showReviews=() => {
        setReviewsState(true) 
     }
+    
     const showCast=() => {
        setCastState(true) 
     }
@@ -79,15 +73,15 @@ export default function MovieCard() {
                     <p>Details</p>
                     <article key={details.id}>
                         {
-                            details.poster_path ? details.poster_path : `No poster`
+                            details.poster_path ? <img src={`https://image.tmdb.org/t/p/w300${details.poster_path}`} alt='' /> : `No poster`
                         }
-                        <img src={details.poster_path} alt='' />
-                        <title key={details.id}>{details.title}</title>
-                        <p>User Score: {details.vote_average}</p>
-                        <title>Overview</title>
+                        
+                        <h1 key={details.id}>{details.title}</h1>
+                        <h2>User Score: {details.vote_average}</h2>
+                        <h2>Overview</h2>
                         <p>{details.overview}</p>
-                        <title>Genres</title>
-                        <p>{details.genres}</p>
+                        <h2>Genres</h2>
+                        {/* {<ul>{details.genres.map((genre)=><li>{genre.name}</li>)} </ul> } */}
                     </article>
                     <div>
                         <p>Additional information</p>
@@ -95,15 +89,22 @@ export default function MovieCard() {
                             <li onClick={showCast}>
                                 
                                 {details.cast &&
-                                    <Link to={`/movies/${params.movieId}/cast`}>
-                                        Cast - REFFERENCE
+                                    <Link to={{
+                                    pathname: `/movies/${params.movieId}/cast`,
+                                    state: { from: location?.state?.from ?? "/movies" },
+                                }
+                                    }>
+                                        Cast
                                     </Link>
                                 }
                             </li>
                             <li onClick={showReviews}>
                                 {details.reviews &&
-                                    <Link to={`/movies/${params.movieId}/reviews`}>
-                                        Reviews - REFFERENCE
+                                    <Link to={{
+                                    pathname: `/movies/${params.movieId}/reviews`,
+                                    state: { from: location?.state?.from ?? "/movies" },
+                                }}>
+                                        Reviews 
                                     </Link>
                                 }
                             </li>

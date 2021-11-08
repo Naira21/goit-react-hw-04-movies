@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import './TrendingMovies.module.css'
-import { Link} from 'react-router-dom';
+import { useLocation, Link} from 'react-router-dom';
 import {MoviesFetch} from '../APIs'
 
 const newMoviesFetch = new MoviesFetch();
 export default function TrendingMovies () {
     const [trends, setTrends] = useState([]);
     const [status, setStatus] = useState('init');
+    const location = useLocation();
+
 
     useEffect(() => {   
               
@@ -30,7 +32,10 @@ export default function TrendingMovies () {
                     
                     <li key={trend.id} className='trendList'>
                         
-                        <Link to={`/movies/${trend.id}`}>
+                        <Link to={{
+                            pathname: `/movies/${trend.id}`,
+                            state:{from:location, label: "Go to trends"}
+                        }}>
                             {trend.name || trend.title} 
                         </Link>
                        

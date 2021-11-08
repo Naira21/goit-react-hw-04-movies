@@ -29,8 +29,8 @@ function App() {
           <Route exact path='/' >
             <TrendingMovies />
           </Route>
-            <Route exact path='/movies'>
-          <MovieList/>
+          <Route exact path='/movies'>
+            <MovieList />
           </Route>
           <Route path='/movies/:movieId' component={MovieCard}></Route>          
           <Route path='/movies/:movieId/cast' component={CastInfo}></Route>

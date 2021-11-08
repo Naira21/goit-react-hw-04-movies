@@ -4,27 +4,26 @@ import './SearchMovie.module.css'
 
 export function SearchBar({onSubmit}) {
     const [searchValue, setSearchValue] = useState("");
-
     
     const handleSearchOnChange = (e) => {
-        setSearchValue(e.target.value);
+        setSearchValue(e.target.value);  //toLowerCase()
     };
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         onSubmit(searchValue);
         setSearchValue('');
+        //API request with then/catch
     };
     
     return (        
         <form onSubmit={handleSearchSubmit}>
             <input
-                placeholder='Movie...'
-                onChange={handleSearchOnChange}
-                value={searchValue}
                 type="text"
-                autoComplete="off"
-                autoFocus />            
+                placeholder='Movie...'
+                value={searchValue}
+                onChange={handleSearchOnChange}
+                />            
             <button type="submit" >Search</button>
         </form>               
     )
