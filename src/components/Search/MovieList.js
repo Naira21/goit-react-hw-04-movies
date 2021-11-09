@@ -10,6 +10,16 @@ function MovieList() {
   const location = useLocation();
   const getSearchValue = (searchValue) => {
     setSearchValue(searchValue);
+    if (location.search !== "") {
+      return ;
+    }
+    if (searchValue === '') {
+      return history.push.location;
+    }
+    history.push({
+      ...location,
+      search: `query=${searchValue}`,
+    })
  };
 
   return (

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import './TrendingMovies.module.css'
-import { useLocation, Link} from 'react-router-dom';
+import { useLocation, NavLink} from 'react-router-dom';
 import {MoviesFetch} from '../APIs'
 
 const newMoviesFetch = new MoviesFetch();
@@ -25,26 +25,26 @@ export default function TrendingMovies () {
     let result = newDate.getFullYear() + '/' + (newDate.getMonth()+1) + '/' + newDate.getDate();
     
     return (
-        <>
+        <div className='post'>
             <h1 className="headline"> Trending today, {result }</h1>
-            <ul>
+            <ul className='list'>
                 {trends.length > 0 && trends.map(trend =>
                     
-                    <li key={trend.id} className='trendList'>
+                    <li key={trend.id} className='item'>
                         
-                        <Link to={{
+                        <NavLink to={{
                             pathname: `/movies/${trend.id}`,
                             state:{from:location, label: "Go to trends"}
                         }}>
                             {trend.name || trend.title} 
-                        </Link>
+                        </NavLink>
                        
                     </li>
                 )
                 }
             </ul>
             
-        </>
+        </div>
     )
 
 }

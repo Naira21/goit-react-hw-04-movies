@@ -16,13 +16,10 @@ const urlOnSearch = new URLSearchParams(location.search).get("query");
         onSubmit(searchValue);
         setSearchValue('');
         
-        if (location.search !== "") {
-            return;
-        }
-        history.push({
-            ...location,
-            search: `query=${searchValue}`,
-        })
+        // if (location.search !== "") {
+        //     return;
+        // }
+      
     };
 
    
@@ -33,6 +30,7 @@ const urlOnSearch = new URLSearchParams(location.search).get("query");
                 placeholder='Movie...'
                 query={urlOnSearch}
                 onChange={handleSearchOnChange}
+                className='inputStyle'
                 />            
             <button type="submit" >Search</button>
         </form>               

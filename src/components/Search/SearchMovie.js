@@ -22,22 +22,20 @@ export function SearchMoviesFetch({ searchValue }) {
             return;
         };
         
-        setStatus("pending");
-        
+        setStatus("pending");       
         
         newMoviesFetch
             .searchMovie()
             .then((searchResults) => setSearchResults(searchResults), setStatus('success'))
             .catch(() => setStatus('error'))
     }, [searchValue],
-        console.log('results in useEffect', searchResults),    
-    
+        console.log('results in useEffect', searchResults),  
     
     );
 
+    //rendering
     
-    
-    if (status === "init") {
+    if (status === "init" || searchValue === "") {
         return null;
     }
     if (status === "success") {
@@ -49,7 +47,7 @@ export function SearchMoviesFetch({ searchValue }) {
                         <Link to={{
                             pathname: `/movies/${movie.id}`,   //куда?
                             state: {
-                                from: location,        //откуда?
+                                from:  `${history.location.pathname}` + `${history.location.search}`,        //откуда?
                             }   
                         }}
                         >

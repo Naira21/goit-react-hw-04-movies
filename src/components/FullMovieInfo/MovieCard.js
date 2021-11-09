@@ -2,7 +2,8 @@
 import { lazy, Suspense, useState, useEffect } from 'react';
 import { useHistory, useLocation, useParams } from 'react-router';
 import {Link, Route} from 'react-router-dom';
-import {MoviesFetch} from '../APIs'
+import { MoviesFetch } from '../APIs'
+import './MovieCard.module.css'
 
 const CastInfo = lazy(() => import('./Cast'/* webpackChunkName: cast info*/))
 const Reviews = lazy(()=>import('./Reviews'/* webpackChunkName: reviews*/  ))
@@ -29,6 +30,7 @@ export default function MovieCard() {
     const handleClick = () => {
         history.push(location?.state?.from ?? '/');
         //history.push(location?.state?.from?.location ?? '/');
+        
     }
     
 //     const pushSearch = () => {
@@ -48,18 +50,18 @@ export default function MovieCard() {
             </button>
             {details ? (
                 <>
-                    <p>Details</p>
                     <article key={details.id}>
                         {
                             details.poster_path ? <img src={`https://image.tmdb.org/t/p/w300${details.poster_path}`} alt='' /> : `No poster`
                         }
-                        
+                        <div className='main'>
                         <h1 key={details.id}>{details.name || details.title }</h1>
                         <h2>User Score: {details.vote_average}</h2>
                         <h2>Overview</h2>
                         <p>{details.overview}</p>
                         <h2>Genres</h2>
-                        {<ul>{details.genres && details.genres.map((genre)=>(<li key={genre.id}>{genre.name}</li>))} </ul> }
+                        {<ul className='genres'>{details.genres && details.genres.map((genre)=>(<li key={genre.id} className='genre'>{genre.name}</li>))} </ul> }
+                        </div>
                     </article>
                     <div>
                         <p>Additional information</p>
@@ -73,7 +75,7 @@ export default function MovieCard() {
                                 //     from: history.location.state.from,
                                 //     label: "Go back to movie details",
                                 // },
-                                state: { from: location?.state?.from ?? "/movies" },
+                                state: { from: history.location ?? "/movies" },
                                 }}>
                                     Cast
                                 </Link>

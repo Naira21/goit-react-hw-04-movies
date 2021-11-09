@@ -1,17 +1,58 @@
-.trendList {
+.item {
   list-style-type: none;
   color: rgba(255, 228, 196, 0.767);
   font-size: 26px;
-}
-ul > .trendList:before {
-  content: "...> "; /* Добавляем в качестве маркера символ */
+  font-weight: 800;
+  line-height: 1.5;
 }
 
-ul {
+.item:hover {
+  transform: scale(1.5);
+}
+.list {
+  justify-content: center;
+  display: inline-block;
+  border-radius: 4px;
+  padding: 20px 30px;
+
   text-align: left;
+  line-height: 1.5;
+  font-family: sans-serif;
+  background-color: #19851945;
 }
 
 .headline {
   font-size: 44px;
   margin-bottom: 0;
+  color: darkgreen;
+}
+.post {
+  position: relative;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 4px;
+  line-height: 1.5;
+  font-family: sans-serif;
+  background-color: #6e373798;
+}
+
+.post:before,
+.post:after {
+  z-index: -1;
+  position: absolute;
+  content: "";
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  top: 80%;
+  max-width: 300px;
+  background: #777;
+  box-shadow: 0 15px 10px #777;
+  transform: rotate(-3deg);
+}
+
+.post:after {
+  transform: rotate(3deg);
+  right: 10px;
+  left: auto;
 }

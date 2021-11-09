@@ -1,0 +1,27 @@
+article {
+  margin: 15px;
+  padding: 15px;
+  border: 2px solid darkgrey;
+
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: start;
+  align-items: start;
+}
+
+.main {
+  display: block;
+}
+
+.genres {
+  display: inline-flex;
+}
+
+.genre {
+  margin-left: 20px;
+}
+
+.cast {
+  display: grid;
+}
