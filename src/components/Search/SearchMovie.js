@@ -13,9 +13,7 @@ export function SearchMoviesFetch({ searchValue }) {
    
     const location = useLocation();
     const history = useHistory();
-
-    //const [keepValue, setKeepValue] = useState('');
-    const urlOnSearch = new URLSearchParams(location.search).get("searchValue");
+   //const urlOnSearch = new URLSearchParams(location.search).get("query");
     console.log('location', location);
 
     useEffect(() => {
@@ -25,19 +23,26 @@ export function SearchMoviesFetch({ searchValue }) {
         };
         console.log('searchValue',searchValue)
         setStatus("pending");
-       // setKeepValue(searchValue);
-        
-        //if (urlOnSearch)
+        const pushPath = (searchValue) => {
+            history.push({
+                ...location,
+                search: `query=${searchValue}`,
+            })
+        }
+            
         newMoviesFetch
             .searchMovie()
             .then((searchResults) => setSearchResults(searchResults), setStatus('success'))
             .catch(() => setStatus('error'))
     }, [searchValue],
         console.log('results in useEffect', searchResults),
+        
+    
+    
     );
 
     
-    
+     
    
     console.log('results out of useEffect',searchResults);
     if (status === "init") {
@@ -52,7 +57,8 @@ export function SearchMoviesFetch({ searchValue }) {
                         <Link to={{
                             pathname: `/movies/${movie.id}`,   //куда?
                             state: {
-                                from: {location: `${history.location.pathname}`+`${history.location.search}`, label: `← Go back`},
+                                 from: location,
+                                // from: {location: `${history.location.pathname}`+`${history.location.search}`, label: `← Go back`},
                             }   //откуда?
                         }}
                         >

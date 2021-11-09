@@ -10,7 +10,11 @@ function MovieList() {
   const location = useLocation();
   const getSearchValue = (searchValue) => {
     setSearchValue(searchValue);
-  };
+ };
+
+  
+    
+  
 // const pushPath = () => {
 //     history.push({
 //       ...location,
@@ -20,7 +24,7 @@ function MovieList() {
   //onClick = { pushPath } in SearchBar
   return (
     <div className="App">
-      <SearchBar onSubmit={getSearchValue} />  
+      <SearchBar onSubmit={getSearchValue}  />  
       <SearchMoviesFetch searchValue={searchValue} />
     </div>
   );

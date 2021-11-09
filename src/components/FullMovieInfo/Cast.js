@@ -1,23 +1,33 @@
-// import { useState, useEffect } from "react";
-// import { useParams } from "react-router";
-// const params = useParams();
+import { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import { MoviesFetch } from '../APIs'
+import defaultImage from '../../defaultImage/defaultImage.png'
 
-// export function CastInfo() {
-//     const [cast, setCast] = useState([])
-//     const API_KEY = `607ce2b0175f11dd3da1b6bcb0605f59`;
-//     const URL = `https://api.themoviedb.org/3/`;
-//     const castUrl = `${URL}movie/${params.movieId}/credits?api_key=${API_KEY}>`;
+const newMoviesFetch = new MoviesFetch();
 
-// useEffect(() => {
-//     fetch(castUrl)
-//             .then(result => result.json())
-//             .then(cast => setCast(cast))
-//             .catch(error => error.message)
-//         }, [castUrl]
-//     )
+export default function CastInfo() {
+    const [cast, setCast] = useState(null);
+    const params = useParams(); //or just const { moviesId } = useParams();
+     useEffect(() => {        
+        newMoviesFetch
+        .getCast(params.movieId)
+        .then(cast =>
+            setCast(cast)
+        )
+        .catch((error) => alert(error))        
+        
+    }, [params.movieId])
 
-//     return (
-//         <p>cast</p>  
-{/* <li>{ }</li>
- ) */}
-// }
+    return (
+        
+        <ul>
+            {cast && cast.map((actor) => (
+                <li key={actor.cast_id}>
+                    <img src={actor.profile_path
+                        ? `https://image.tmdb.org/t/p/w200/${actor.profile_path}` : defaultImage} alt='' width="80" />
+                    <p>{ actor.name}</p>
+                </li>
+            ))}
+        </ul>
+    )
+}
