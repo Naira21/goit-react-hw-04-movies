@@ -15,11 +15,7 @@ export default function MovieCard() {
     const params = useParams();
     console.log('Card location', location)
     const [details, setDetails] = useState(null);
-    // const [castState, setCastState] = useState(false);
-    // const [cast, setCast] = useState(null);
-    // const [reviewsState, setReviewsState] = useState(false);
-    // const [reviews, setReviews] = useState(null);
-   
+ 
  
     useEffect(() => {
         newMoviesFetch
@@ -32,7 +28,7 @@ export default function MovieCard() {
     
     const handleClick = () => {
         history.push(location?.state?.from ?? '/');
-        // history.push(location?.state?.from?.location ?? '/');
+        //history.push(location?.state?.from?.location ?? '/');
     }
     
 //     const pushSearch = () => {
@@ -42,39 +38,7 @@ export default function MovieCard() {
 //     });
 //   };
     
-            
-    // useEffect(() => {
-    //     if (castState) {
-    //         newMoviesFetch
-    //         .getCast(params.movieId)
-    //         .then(cast =>
-    //             setCast(cast)
-    //         )
-    //         .catch((error) => alert(error))
-    //     }
-        
-    // }, [castState, params.movieId])
-    
-    // useEffect(() => {
-    //     if (reviewsState) {
-    //       newMoviesFetch
-    //         .getReviews(params.movieId)
-    //         .then(reviews =>
-    //             setReviews(reviews)
-    //         )
-    //         .catch((error) => alert(error))  
-    //     }
-        
-    // }, [reviewsState, params.movieId])
-
-    // const showReviews=() => {
-    //    setReviewsState(true) 
-    // }
-    
-    // const showCast=() => {
-    //    setCastState(true) 
-    // }
-        
+       
         
     return (
         <>

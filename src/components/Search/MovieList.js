@@ -12,16 +12,6 @@ function MovieList() {
     setSearchValue(searchValue);
  };
 
-  
-    
-  
-// const pushPath = () => {
-//     history.push({
-//       ...location,
-//       search: `query=${searchValue}`,
-//     });
-  //   };
-  //onClick = { pushPath } in SearchBar
   return (
     <div className="App">
       <SearchBar onSubmit={getSearchValue}  />  
@@ -31,8 +21,3 @@ function MovieList() {
 }
 export default MovieList;
 
-
-//const urlQuery = new URLSearchParams(location.search).get("query")
-//const location = useLocation();
-//const history = useHistory();
-//import { useLocation, useHistory } from "react-router-dom";

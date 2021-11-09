@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <nav>
-        <ul>
+        <ul className='navHeader'>
           <li>
             <NavLink exact to='/' className='navLink' activeClassName='activeNavLink'>Home</NavLink>
           </li>

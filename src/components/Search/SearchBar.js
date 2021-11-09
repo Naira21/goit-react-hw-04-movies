@@ -15,7 +15,14 @@ const urlOnSearch = new URLSearchParams(location.search).get("query");
         e.preventDefault();
         onSubmit(searchValue);
         setSearchValue('');
-        //API request with then/catch
+        
+        if (location.search !== "") {
+            return;
+        }
+        history.push({
+            ...location,
+            search: `query=${searchValue}`,
+        })
     };
 
    
