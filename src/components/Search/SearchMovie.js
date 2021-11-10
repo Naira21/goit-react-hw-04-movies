@@ -14,7 +14,7 @@ export function SearchMoviesFetch({ searchValue }) {
     const location = useLocation();
     const history = useHistory();
     const urlOnSearch = new URLSearchParams(location.search).get("query");
-    console.log('location', location);
+    console.log('urlOnSearch', urlOnSearch);
 
     useEffect(() => {
         newMoviesFetch.searchQuery = searchValue;
@@ -22,8 +22,8 @@ export function SearchMoviesFetch({ searchValue }) {
             return;
         };
         
-        setStatus("pending");       
-        
+         setStatus("pending");       
+                
         newMoviesFetch
             .searchMovie()
             .then((searchResults) => setSearchResults(searchResults), setStatus('success'))
@@ -32,6 +32,23 @@ export function SearchMoviesFetch({ searchValue }) {
         console.log('results in useEffect', searchResults),  
     
     );
+
+    useEffect(() => {
+        if (urlOnSearch === '') {
+            return;
+        }
+        if(urlOnSearch){
+            newMoviesFetch.searchQuery = urlOnSearch;
+        }
+        
+        newMoviesFetch
+            .searchMovie()
+            .then((searchResults) => setSearchResults(searchResults), setStatus('success'))
+            .catch(() => setStatus('error'))
+
+    }, [urlOnSearch])
+
+   
 
     //rendering
     

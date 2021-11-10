@@ -31,7 +31,6 @@ export class MoviesFetch{
 
     async searchMovie() {
         if (!this.searchQuery) {
-            alert(`Enter the search request please!`);
             return;
         }
         let url = `search/movie?api_key=${API_KEY}&query=${this.searchQuery}`;

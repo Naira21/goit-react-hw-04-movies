@@ -33,14 +33,7 @@ export default function MovieCard() {
         
     }
     
-//     const pushSearch = () => {
-//     history.push({
-//       ...location,
-//       search: `query=1`,
-//     });
-//   };
-    
-       
+     
         
     return (
         <>
