@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLocation, useHistory  } from 'react-router';
-import './SearchMovie.module.css'
+import s from './SearchMovie.module.css'
 
 
 export function SearchBar({onSubmit}) {
@@ -28,7 +28,7 @@ export function SearchBar({onSubmit}) {
                 placeholder='Movie...'
                 query={urlOnSearch}
                 onChange={handleSearchOnChange}
-                className='inputStyle'
+                className={s.inputStyle}
                 />            
             <button type="submit" >Search</button>
         </form>               

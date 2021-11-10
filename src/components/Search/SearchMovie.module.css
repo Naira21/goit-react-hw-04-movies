@@ -1,4 +1,4 @@
-input {
+.inputStyle {
   width: 280px;
   padding: 5px;
   background-color: burlywood;
@@ -9,4 +9,19 @@ button {
   margin-left: 10px;
   color: darkgreen;
   font-weight: 600;
+}
+
+.item {
+}
+
+.post {
+  position: relative;
+  max-width: 600px;
+  padding: 20px;
+  border-radius: 4px;
+  line-height: 1.5;
+  font-family: sans-serif;
+  background-color: #fff;
+
+  box-shadow: 10px 10px 8px 2px rgba(0, 0, 0, 0.3);
 }

@@ -16,10 +16,19 @@ export default function Reviews() {
         .catch((error) => alert(error))  
         
     }, [params.movieId])
-console.log('reviews',reviews)
-    return (
-        <ul>
-            {reviews ? (
+  console.log('reviews', reviews)
+  
+    return reviews.length > 0 ? (
+      <ul>
+        {reviews.results.map((review) => (
+          <li key={review.id} >
+            <h3 >Author name: {review.author}</h3>
+            <p>{review.content}</p>
+          </li>
+        ))
+          
+        }
+            {/* {reviews ? (
         <p>We don't have any reviews for this movie</p>
       ) : (
         reviews &&
@@ -29,8 +38,9 @@ console.log('reviews',reviews)
             <p>{review.content}</p>
           </li>
         ))
-      )}
-        </ul>
+      )} */}
+        
+      </ul>
             
-    )
+    ): <p>We don't have any reviews for this movie</p>
 }

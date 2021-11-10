@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import './SearchMovie.module.css'
+import s from './SearchMovie.module.css'
 import { Link } from 'react-router-dom';
 import { useLocation, useHistory } from 'react-router';
 import { MoviesFetch } from '../APIs';
@@ -58,9 +58,9 @@ export function SearchMoviesFetch({ searchValue }) {
     if (status === "success") {
         return (
             <>
-                <ul>                    
+                <ul className={s.post}>                    
                     {searchResults.length > 0 && searchResults.map((movie) =>
-                    (<li key={movie.id} className='result-item'>
+                    (<li key={movie.id} className={s.item}>
                         <Link to={{
                             pathname: `/movies/${movie.id}`,   //куда?
                             state: {

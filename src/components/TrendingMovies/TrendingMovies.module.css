@@ -1,13 +1,13 @@
 .item {
   list-style-type: none;
   color: rgba(255, 228, 196, 0.767);
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 800;
-  line-height: 1.5;
+  line-height: 1.2;
 }
 
 .item:hover {
-  transform: scale(1.5);
+  transform: scale(1.1);
 }
 .list {
   justify-content: center;
@@ -31,12 +31,13 @@
   max-width: 600px;
   padding: 20px;
   border-radius: 4px;
-  line-height: 1.5;
+  line-height: 1.2;
   font-family: sans-serif;
-  background-color: #6e373798;
+  background-color: #a05d5d60;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.post:before,
 .post:after {
   z-index: -1;
   position: absolute;

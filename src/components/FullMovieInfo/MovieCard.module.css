@@ -22,6 +22,10 @@ article {
   margin-left: 20px;
 }
 
+.actor {
+  margin-right: 10px;
+}
 .cast {
-  display: grid;
+  display: inline-flex;
+  flex-wrap: wrap;
 }
