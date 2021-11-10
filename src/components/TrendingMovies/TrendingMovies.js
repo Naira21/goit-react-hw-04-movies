@@ -51,7 +51,5 @@ export default function TrendingMovies () {
 
 
 TrendingMovies.prototype = {
-    media_type: PropTypes.string.isRequired,
-    time_window: PropTypes.string.isRequired,
     API_KEY: PropTypes.string.isRequired
 }

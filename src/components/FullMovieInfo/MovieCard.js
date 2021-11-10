@@ -29,12 +29,9 @@ export default function MovieCard() {
     
     const handleClick = () => {
         history.push(location?.state?.from ?? '/');
-        //history.push(location?.state?.from?.location ?? '/');
-        
+        //history.push(location?.state?.from?.location ?? '/');        
     }
     
-     
-        
     return (
         <>
             <button type='button' onClick={handleClick}>
@@ -65,23 +62,19 @@ export default function MovieCard() {
                     <div>
                         <p>Additional information</p>
                         <ul>
-                            <li>                                
-                               
+                            <li>
                                 <Link to={{
-                                pathname: `/movies/${details.id}/cast`,
+                                    pathname: `/movies/${details.id}/cast`,
                                     // pathname: `/movies/${params.movieId}/cast`,
-                                // state: {
-                                //     from: history.location.state.from,
-                                //     label: "Go back to movie details",
-                                // },
-                                state: { from: history.location ?? "/movies" },
+                                    state: {
+                                        from: history.location.state.from,
+                                        label: "Go back to movie details",
+                                    },
                                 }}>
                                     Cast
-                                </Link>
-                                
+                                </Link>                                
                             </li>
-                            <li >
-                             
+                            <li >                             
                                 <Link to={{
                                     pathname: `/movies/${details.id}/reviews`,
                                     state: {
@@ -90,10 +83,8 @@ export default function MovieCard() {
                                     },
                                 }}>
                                     Reviews
-                                </Link>
-                               
+                                </Link>                               
                             </li>
-
                         </ul>
                     </div>
                     <Suspense fallback="Waiting...">

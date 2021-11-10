@@ -30,10 +30,12 @@ export class MoviesFetch{
     }
 
     async searchMovie() {
+        axios.defaults.baseURL = this.state_url;
+        let url = `search/movie?api_key=${API_KEY}&query=${this.searchQuery}`;
+
         if (!this.searchQuery) {
             return;
         }
-        let url = `search/movie?api_key=${API_KEY}&query=${this.searchQuery}`;
         
         try {
             const response = await axios.get(url);
@@ -47,6 +49,7 @@ export class MoviesFetch{
     }
 
     async getMovieDetails(id) {
+        axios.defaults.baseURL = this.state_url;
         let url = `movie/${id}?api_key=${API_KEY}&language=en-US`;
         try {
             const response = await axios.get(url);
@@ -60,6 +63,7 @@ export class MoviesFetch{
 
 
     async getCast(id) {
+        axios.defaults.baseURL = this.state_url;
         let url = `movie/${id}/credits?api_key=${API_KEY}&language=en-US`;
         try {
             const response = await axios.get(url);
@@ -71,11 +75,12 @@ export class MoviesFetch{
         }        
     }
 
-      async getReviews(id) {
+    async getReviews(id) {
+          axios.defaults.baseURL = this.state_url;
         let url = `movie/${id}/reviews?api_key=${API_KEY}&language=en-US`;
         try {
             const response = await axios.get(url);
-            const data = response.data; //возможно, нужно response.data
+            const data = response.data.results; //возможно, нужно response.data
             return data;
         }
         catch (err) {

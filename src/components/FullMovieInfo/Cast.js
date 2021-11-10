@@ -17,8 +17,8 @@ export default function CastInfo() {
         )
         .catch((error) => alert(error))        
         
-    }, [params.movieId])
-
+     }, [params.movieId])
+      
     return (
         
         <ul className={s.cast}>

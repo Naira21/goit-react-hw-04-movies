@@ -2,13 +2,10 @@ import { useState, useEffect } from 'react';
 import { useLocation, useHistory  } from 'react-router';
 import s from './SearchMovie.module.css'
 
-
 export function SearchBar({onSubmit}) {
     const [searchValue, setSearchValue] = useState("");
     const location = useLocation();
     const history = useHistory();
-
-    
 
     const handleSearchOnChange = (e) => {
         setSearchValue(e.target.value);  //toLowerCase()
@@ -29,6 +26,7 @@ export function SearchBar({onSubmit}) {
                 query={urlOnSearch}
                 onChange={handleSearchOnChange}
                 className={s.inputStyle}
+                value={searchValue}
                 />            
             <button type="submit" >Search</button>
         </form>               
