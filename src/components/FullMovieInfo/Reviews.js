@@ -34,6 +34,7 @@ export default function Reviews() {
   //   )
   // }
 
+  
   return (
     <ul>
         {reviews !== null ? (
@@ -44,8 +45,8 @@ export default function Reviews() {
               <p>{review.content}</p>
             </li>
           ))
-        ) : (<p>We don't have any reviews for this movie</p>
-        )}
+        ) : <p>We don't have any reviews for this movie</p>
+        }
       </ul>
             
     )

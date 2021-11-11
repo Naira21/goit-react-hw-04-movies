@@ -43,20 +43,38 @@ export function SearchMoviesFetch({ searchValue }) {
       }
       newMoviesFetch.searchQuery = searchValue;
       
-
       setStatus("pending");
 
       newMoviesFetch
         .searchMovie()
-        .then((results) => {
-          setSearchResults(results);
-          setStatus("success");
+        .then((results) => {console.log('results',results)
+          // setSearchResults(results);
+          // setStatus("success");
         })
         .catch((error) => setStatus("error", error.message));
     },
     [searchValue]
     // console.log("results in useEffect", searchResults)
   );
+
+  useEffect(() => {
+    
+    if (urlOnSearch === null) {
+      return;
+    }
+    console.log('I am in useEffect with urlOnSearch')
+    if (urlOnSearch !== null && searchValue === "" ) {
+      newMoviesFetch.searchQuery = urlOnSearch;
+    newMoviesFetch
+        .searchMovie(urlOnSearch)
+        .then((results) => {
+          setSearchResults(results);
+          setStatus("success");
+        })
+        .catch((error) => setStatus("error", error.message));
+    }
+    
+  }, [urlOnSearch, searchValue])
 
   // useEffect(() => {
   //   console.log("2nd useEffect");
@@ -81,24 +99,7 @@ export function SearchMoviesFetch({ searchValue }) {
   //     .catch((error) => setStatus("error", error.message));
   // }, [urlOnSearch]);
 
-  useEffect(() => {
-    
-    if (urlOnSearch === null) {
-      return;
-    }
-    
-    if (urlOnSearch !== null && searchValue === "" ) {
-      newMoviesFetch.searchQuery = urlOnSearch;
-    newMoviesFetch
-        .searchMovie(urlOnSearch)
-        .then((results) => {
-          setSearchResults(results);
-          setStatus("success");
-        })
-        .catch((error) => setStatus("error", error.message));
-    }
-    
-  }, [urlOnSearch, searchValue])
+  
     
   //rendering
   if (status === "pending") {
@@ -119,9 +120,10 @@ export function SearchMoviesFetch({ searchValue }) {
                   to={{
                     pathname: `/movies/${movie.id}`, //куда?
                     state: {
-                      from:
-                        `${history.location.pathname}` +
-                        `${history.location.search}`, //откуда?
+                      from:{...location}
+                        
+                        // `${history.location.pathname}` +
+                        // `${history.location.search}`, //откуда?
                     },
                   }}
                 >
