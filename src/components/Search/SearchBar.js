@@ -18,6 +18,8 @@ export function SearchBar({onSubmit}) {
         setSearchValue('');
     };
    
+
+
     return (        
         <form onSubmit={handleSearchSubmit}>
             <input

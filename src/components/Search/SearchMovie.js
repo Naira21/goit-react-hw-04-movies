@@ -13,7 +13,7 @@ export function SearchMoviesFetch({ searchValue }) {
   const location = useLocation();
   const history = useHistory();
   const urlOnSearch = new URLSearchParams(location.search).get("query");
-  // console.log("urlOnSearch", urlOnSearch);
+  console.log("urlOnSearch", urlOnSearch);
 
   //исходный useEffect(), по которому рендерится разметка
     
@@ -42,6 +42,7 @@ export function SearchMoviesFetch({ searchValue }) {
         return;
       }
       newMoviesFetch.searchQuery = searchValue;
+      
 
       setStatus("pending");
 
@@ -57,30 +58,47 @@ export function SearchMoviesFetch({ searchValue }) {
     // console.log("results in useEffect", searchResults)
   );
 
+  // useEffect(() => {
+  //   console.log("2nd useEffect");
+  //   console.log(status);
+  //   if (urlOnSearch === "") {
+  //     return;
+  //   }
+  //   if (urlOnSearch) {
+  //     newMoviesFetch.searchQuery = urlOnSearch;
+  //     const query = newMoviesFetch.searchQuery;
+  //     console.log(query);
+  //   }
+
+  //   setStatus("pending");
+
+  //   newMoviesFetch
+  //     .searchMovie()
+  //     .then((results) => {
+  //       setSearchResults(results);
+  //       setStatus("success");
+  //     })
+  //     .catch((error) => setStatus("error", error.message));
+  // }, [urlOnSearch]);
+
   useEffect(() => {
-    console.log("2nd useEffect");
-    console.log(status);
-    if (urlOnSearch === "") {
+    
+    if (urlOnSearch === null) {
       return;
     }
-    if (urlOnSearch) {
-      newMoviesFetch.searchQuery = urlOnSearch;
-      const query = newMoviesFetch.searchQuery;
-      console.log(query);
-    }
-
-    setStatus("pending");
-
-    newMoviesFetch
-      .searchMovie()
-      .then((results) => {
-        setSearchResults(results);
-        setStatus("success");
-      })
-      .catch((error) => setStatus("error", error.message));
-  }, [urlOnSearch]);
-
     
+    if (urlOnSearch !== null && searchValue === "" ) {
+      newMoviesFetch.searchQuery = urlOnSearch;
+    newMoviesFetch
+        .searchMovie(urlOnSearch)
+        .then((results) => {
+          setSearchResults(results);
+          setStatus("success");
+        })
+        .catch((error) => setStatus("error", error.message));
+    }
+    
+  }, [urlOnSearch, searchValue])
     
   //rendering
   if (status === "pending") {
@@ -94,7 +112,7 @@ export function SearchMoviesFetch({ searchValue }) {
     return (
       <>
         <ul className={s.post}>
-          {searchResults.map((movie) => {
+          {searchResults.length > 0 && searchResults.map((movie) => {
             return (
               <li key={movie.id} className={s.item}>
                 <Link
