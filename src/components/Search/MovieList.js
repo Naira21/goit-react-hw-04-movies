@@ -12,7 +12,7 @@ function MovieList() {
     setSearchValue(searchValue);
 
     if (searchValue === "") {
-      return history.push.location;
+      return ;
     }
     history.push({
       ...location,

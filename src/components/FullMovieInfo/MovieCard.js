@@ -45,7 +45,7 @@ export default function MovieCard() {
               <h1 key={details.id}>{details.name || details.title}</h1>
               <h2>User Score: {details.vote_average}</h2>
               <h2>Overview</h2>
-              <p>{details.overview}</p>
+              <p className={s.overview}>{details.overview}</p>
               <h2>Genres</h2>
               {<ul className={s.genres}>{
                 details.genres && details.genres.map((genre) => (

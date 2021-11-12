@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router'
 import { MoviesFetch } from '../APIs'
 
-const newMoviesFetch = new MoviesFetch();
-
+const newMoviesFetch = new MoviesFetch()
 export default function Reviews() {
   const [reviews, setReviews] = useState(null)
   const params = useParams()
@@ -13,7 +12,7 @@ export default function Reviews() {
       .then((reviews) => setReviews(reviews))
       .catch((error) => alert(error))
   }, [params.movieId])
-
+  console.log('reviews', reviews)
   return (
     <ul>
       {reviews?.length > 0 ? (

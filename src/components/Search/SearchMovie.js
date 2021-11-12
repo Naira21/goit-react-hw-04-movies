@@ -13,28 +13,6 @@ export function SearchMoviesFetch({ searchValue }) {
   const location = useLocation();
   const urlOnSearch = new URLSearchParams(location.search).get("query");
 
-  useEffect(
-    () => {
-      if (searchValue === "") {
-        return;
-      }
-      newMoviesFetch.searchQuery = searchValue;      
-      setStatus("pending");
-      newMoviesFetch
-        .searchMovie()
-        .then(
-          // (results) => {
-          //   console.log('results', results)
-          // setSearchResults(results);
-          setStatus("success")
-          // }
-        )
-        .catch((error) => setStatus("error", error.message));
-    },
-    [searchValue]
-
-  );
-
   useEffect(() => {    
     if (urlOnSearch === null) {
       return;

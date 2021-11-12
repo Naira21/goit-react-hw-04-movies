@@ -31,3 +31,7 @@ article {
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.overview {
+  max-width: fit-content;
+}
