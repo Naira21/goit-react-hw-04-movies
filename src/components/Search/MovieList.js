@@ -19,16 +19,15 @@ function MovieList() {
       search: `query=${searchValue}`,
     });
   };
-  //
-  // useEffect(() => {
-  //   if (location.search === '') {
-  //     console.log('location.search',location.search)
-  //     return;
-  //   }
-  //   if (location.search !== '') {
-  //     setSearchValue(location.search);
-  //   }
-  // }, [location.search])
+  
+  useEffect(() => {
+    if (location.search === '') {
+      return;
+    }
+    if (location.search !== '') {
+      setSearchValue(location.search);
+    }
+  }, [location.search])
 
   return (
     <div className="App">

@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import s from "./SearchMovie.module.css";
 import { Link } from "react-router-dom";
-import { useLocation, useHistory } from "react-router";
+import { useLocation} from "react-router";
 import { MoviesFetch } from "../APIs";
+
 const newMoviesFetch = new MoviesFetch();
 
 export function SearchMoviesFetch({ searchValue }) {
@@ -11,104 +11,56 @@ export function SearchMoviesFetch({ searchValue }) {
   const [status, setStatus] = useState("init");
 
   const location = useLocation();
-  const history = useHistory();
   const urlOnSearch = new URLSearchParams(location.search).get("query");
-  console.log("urlOnSearch", urlOnSearch);
 
-  //исходный useEffect(), по которому рендерится разметка
-    
-  // useEffect(() => {
-  //   if (searchValue === "") {
-  //     return;
-  //   }
-
-  //   newMoviesFetch.searchQuery = searchValue;
-  //   setStatus("pending");
-
-  //   newMoviesFetch
-  //     .searchMovie()
-  //     .then((res) => {
-  //       console.log(res);
-  //       console.log(res);
-  //     })
-  //     .catch((error) => setStatus("error", error.message));
-  // }, [searchValue]);
-
-    //проверка работы useEffect-ов
   useEffect(
     () => {
-      console.log("1st useeffect");
       if (searchValue === "") {
         return;
       }
-      newMoviesFetch.searchQuery = searchValue;
-      
+      newMoviesFetch.searchQuery = searchValue;      
       setStatus("pending");
-
       newMoviesFetch
         .searchMovie()
-        .then((results) => {console.log('results',results)
+        .then(
+          // (results) => {
+          //   console.log('results', results)
           // setSearchResults(results);
-          // setStatus("success");
-        })
+          setStatus("success")
+          // }
+        )
         .catch((error) => setStatus("error", error.message));
     },
     [searchValue]
-    // console.log("results in useEffect", searchResults)
+
   );
 
-  useEffect(() => {
-    
+  useEffect(() => {    
     if (urlOnSearch === null) {
       return;
     }
-    console.log('I am in useEffect with urlOnSearch')
-    if (urlOnSearch !== null && searchValue === "" ) {
+
+    if (urlOnSearch !== null ) {
       newMoviesFetch.searchQuery = urlOnSearch;
-    newMoviesFetch
+      newMoviesFetch
         .searchMovie(urlOnSearch)
         .then((results) => {
           setSearchResults(results);
           setStatus("success");
         })
         .catch((error) => setStatus("error", error.message));
-    }
-    
-  }, [urlOnSearch, searchValue])
+    }    
+  }, [urlOnSearch])
 
-  // useEffect(() => {
-  //   console.log("2nd useEffect");
-  //   console.log(status);
-  //   if (urlOnSearch === "") {
-  //     return;
-  //   }
-  //   if (urlOnSearch) {
-  //     newMoviesFetch.searchQuery = urlOnSearch;
-  //     const query = newMoviesFetch.searchQuery;
-  //     console.log(query);
-  //   }
-
-  //   setStatus("pending");
-
-  //   newMoviesFetch
-  //     .searchMovie()
-  //     .then((results) => {
-  //       setSearchResults(results);
-  //       setStatus("success");
-  //     })
-  //     .catch((error) => setStatus("error", error.message));
-  // }, [urlOnSearch]);
-
-  
-    
   //rendering
-  if (status === "pending") {
-    return <div className="">Загружаю</div>;
-  }
-
   if (status === "init" || searchValue === "") {
     return null;
   }
+
+  if (status === "pending") {
+    return <p>Loading...</p>;
+  }
+
   if (status === "success") {
     return (
       <>
@@ -118,12 +70,9 @@ export function SearchMoviesFetch({ searchValue }) {
               <li key={movie.id} className={s.item}>
                 <Link
                   to={{
-                    pathname: `/movies/${movie.id}`, //куда?
+                    pathname: `/movies/${movie.id}`,
                     state: {
-                      from:{...location}
-                        
-                        // `${history.location.pathname}` +
-                        // `${history.location.search}`, //откуда?
+                      from: { ...location }
                     },
                   }}
                 >
@@ -136,16 +85,8 @@ export function SearchMoviesFetch({ searchValue }) {
       </>
     );
   }
-  if (status === "error") {
-    if (searchResults.length === 0) {
-      return alert(
-        `Sorry, we couldn't find a movie with this word... Lets try again!`
-      );
-    }
+  if (status === 'error' && searchResults.length === 0) {
+    alert(`Sorry, we couldn't find a movie with this word... Lets try again!`);
+    return null;
   }
 }
-
-SearchMoviesFetch.prototype = {
-  queryResults: PropTypes.arrayOf(PropTypes.shape),
-  API_KEY: PropTypes.string.isRequired,
-};

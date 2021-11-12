@@ -1,13 +1,14 @@
 article {
-  margin: 15px;
+  margin: 15px auto;
   padding: 15px;
   border: 2px solid darkgrey;
+  max-width: max-content;
 
   display: flex;
   flex-direction: row;
   align-content: space-between;
-  justify-content: start;
-  align-items: start;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .main {
@@ -27,5 +28,6 @@ article {
 }
 .cast {
   display: inline-flex;
+  flex-direction: row;
   flex-wrap: wrap;
 }
